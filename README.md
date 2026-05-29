@@ -42,6 +42,25 @@ Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\.venv\Scripts\Activate.ps1
 ```
 
+
+### Windows 安装失败：`WinError 206` 文件名或扩展名太长
+
+如果安装依赖时出现 `WinError 206`，通常是项目目录太深，导致 Windows 路径长度超过限制。请先删除安装失败后留下的不完整虚拟环境，再把项目放到更短的路径重新安装：
+
+```powershell
+cd C:\Users\eason_han\Desktop\small-tools-codex-create-document-comparison-tool-e8qcgz\small-tools-codex-create-document-comparison-tool-e8qcgz
+Remove-Item -Recurse -Force .venv
+cd C:\
+Copy-Item -Recurse C:\Users\eason_han\Desktop\small-tools-codex-create-document-comparison-tool-e8qcgz\small-tools-codex-create-document-comparison-tool-e8qcgz C:\small-tools
+cd C:\small-tools
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install --upgrade pip
+.\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe -m streamlit run src/excel_diff_app.py
+```
+
+> 安装失败后继续运行可能会出现 `ModuleNotFoundError: No module named 'streamlit.proto'`，这是因为 Streamlit 只安装了一半。删除 `.venv` 后重新安装即可。
+
 ### macOS / Linux
 
 ```bash
